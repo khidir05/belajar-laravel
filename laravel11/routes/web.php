@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/about', function () {
-    return view('about', ['title' => 'about'], ['name' => 'Rifki']);
+    return view('about', ['title' => 'about']);
 });
 
 // PR Buat Rute baru
@@ -21,10 +21,14 @@ Route::get('/blog', function () {
         [
             'judul' => 'Artikel 1',
             'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+            'nama' => 'Rifki',
+            'date' => '2018-09-01',
         ],
         [
             'judul' => 'Artikel 2',
             'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+            'nama' => 'Khidir',
+            'date' => '2021-08-01',
         ],
     ];
 
