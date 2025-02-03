@@ -2,6 +2,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Arr;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Homepage']);
@@ -16,15 +17,17 @@ Route::get('/about', function () {
 // 2. /contact dengan email dan sosial media
 
 // Rute baru untuk blog
-Route::get('/blog', function () {
-    $artikel = [
+Route::get('/posts', function () {
+    $posts = [
         [
+            'id' => 1,
             'judul' => 'Artikel 1',
             'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
             'nama' => 'Rifki',
             'date' => '2018-09-01',
         ],
         [
+            'id' => 2,
             'judul' => 'Artikel 2',
             'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
             'nama' => 'Khidir',
@@ -32,7 +35,30 @@ Route::get('/blog', function () {
         ],
     ];
 
-    return view('blog', ['title' => 'Blog'] , ['artikel' => $artikel]);
+    return view('posts', ['title' => 'Blog'] , ['posts' => $posts]);
+});
+
+Route::get('/posts/{id}', function ($id){
+    $posts = [
+        [
+            'id' => 1,
+            'judul' => 'Artikel 1',
+            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+            'nama' => 'Rifki',
+            'date' => '2018-09-01',
+        ],
+        [
+            'id' => 2,
+            'judul' => 'Artikel 2',
+            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+            'nama' => 'Khidir',
+            'date' => '2021-08-01',
+        ],
+    ];
+    $post = Arr::first($posts, function($post) use ($id){
+        return $post['id'] == $id;
+    });
+    return view('post', ['title' => 'Single Post', 'post' => $post]);
 });
 
 // Rute baru untuk contact
