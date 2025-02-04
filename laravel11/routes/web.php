@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
+use App\Models\Post;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Homepage']);
@@ -18,46 +19,11 @@ Route::get('/about', function () {
 
 // Rute baru untuk blog
 Route::get('/posts', function () {
-    $posts = [
-        [
-            'id' => 1,
-            'judul' => 'Artikel 1',
-            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-            'nama' => 'Rifki',
-            'date' => '2018-09-01',
-        ],
-        [
-            'id' => 2,
-            'judul' => 'Artikel 2',
-            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-            'nama' => 'Khidir',
-            'date' => '2021-08-01',
-        ],
-    ];
-
-    return view('posts', ['title' => 'Blog'] , ['posts' => $posts]);
+    return view('posts', ['title' => 'Blog'] , ['posts' => Post::all()]);
 });
 
 Route::get('/posts/{id}', function ($id){
-    $posts = [
-        [
-            'id' => 1,
-            'judul' => 'Artikel 1',
-            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-            'nama' => 'Rifki',
-            'date' => '2018-09-01',
-        ],
-        [
-            'id' => 2,
-            'judul' => 'Artikel 2',
-            'isi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-            'nama' => 'Khidir',
-            'date' => '2021-08-01',
-        ],
-    ];
-    $post = Arr::first($posts, function($post) use ($id){
-        return $post['id'] == $id;
-    });
+    $post = Post::find($id);
     return view('post', ['title' => 'Single Post', 'post' => $post]);
 });
 
