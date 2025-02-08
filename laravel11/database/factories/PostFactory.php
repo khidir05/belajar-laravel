@@ -4,12 +4,13 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
 class PostFactory extends Factory
-{
+{ 
     /**
      * Define the model's default state.
      *
@@ -19,7 +20,7 @@ class PostFactory extends Factory
     {
         return [
             'judul' => fake()->sentence(),
-            'nama' => fake()->name(),
+            'author_id' => User::factory(),
             'isi' => fake()->paragraph(),
             'slug' => str::slug(fake()->sentence()),
         ];

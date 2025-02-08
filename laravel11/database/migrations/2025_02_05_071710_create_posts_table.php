@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\table;
+
 return new class extends Migration
 {
     /**
@@ -15,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('slug')->unique();
-            $table->string('nama');
+            $table->foreignId('author_id')->constrained(
+                    table: 'users',
+                    indexName: 'posts_author_id',
+                );            
             $table->text('isi');
             $table->timestamps();
         });

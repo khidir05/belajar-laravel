@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\Post;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Homepage']);
@@ -39,4 +40,11 @@ Route::get('/contact', function () {
     ];
 
     return view('contact', ['title' => 'contact'], ['kontak' => $kontak]);
+});
+
+Route::get('/authors/{user}', function (User $user) {
+    return view('posts', [
+        'title' => "Posts by $user->name",
+        'posts' => $user->posts,
+    ]);
 });
