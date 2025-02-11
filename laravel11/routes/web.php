@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Homepage']);
@@ -20,8 +21,11 @@ Route::get('/about', function () {
 
 // Rute baru untuk blog
 Route::get('/posts', function () {
-    return view('posts', ['title' => 'Blog'] , ['posts' => Post::all()]);
-});
+    return view('posts', [
+        'title' => 'Blog',
+        'posts' => Post::with('category')->get(), // Eager load the category relationship
+    ]);
+});;
 
 Route::get('/posts/{post:slug}', function (Post $post) {
     // $post = Post::find($id);
@@ -42,9 +46,16 @@ Route::get('/contact', function () {
     return view('contact', ['title' => 'contact'], ['kontak' => $kontak]);
 });
 
-Route::get('/authors/{user}', function (User $user) {
+Route::get('/authors/{user:username}', function (User $user) {
     return view('posts', [
-        'title' => "Posts by $user->name",
+        'title' => count($user->posts) . ' Article By '. $user->name,
         'posts' => $user->posts,
+    ]);
+});
+
+Route::get('/category/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'title' => "Posts in {$category->category}",
+        'posts' => $category->posts,
     ]);
 });
