@@ -9,17 +9,18 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['judul', 'author_id', 'isi', 'slug', 'category_id'];
+    protected $fillable = ['judul', 'isi', 'slug', 'category'];
+    protected $with = ['author', 'category'];
 
     // Relationship: A post belongs to an author (User)
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class);
     }
 
     // New relationship: A post belongs to a category
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 }

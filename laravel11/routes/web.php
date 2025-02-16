@@ -21,9 +21,10 @@ Route::get('/about', function () {
 
 // Rute baru untuk blog
 Route::get('/posts', function () {
+    $posts = Post::with('author')->latest()->get();
     return view('posts', [
         'title' => 'Blog',
-        'posts' => Post::with('category')->get(), // Eager load the category relationship
+        'posts' => $posts, // Eager load the category relationship
     ]);
 });;
 
@@ -47,6 +48,7 @@ Route::get('/contact', function () {
 });
 
 Route::get('/authors/{user:username}', function (User $user) {
+    $posts = $user->posts->load('category', 'author');
     return view('posts', [
         'title' => count($user->posts) . ' Article By '. $user->name,
         'posts' => $user->posts,
@@ -54,8 +56,9 @@ Route::get('/authors/{user:username}', function (User $user) {
 });
 
 Route::get('/category/{category:slug}', function (Category $category) {
+    $posts = $category->posts->load('category', 'author');
     return view('posts', [
         'title' => "Posts in {$category->category}",
-        'posts' => $category->posts,
+        'posts' => $posts,
     ]);
 });
